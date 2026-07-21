@@ -4,11 +4,13 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "outDir": "dist",
-    "rootDir": "src",
+    "types": ["node"],
+    // "rootDir": "src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src"]
+  "include": ["src", "drizzle.config.ts"],
+  
 }
