@@ -1,111 +1,123 @@
+/* Custom CSS for message-app following redline charte graphique */
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+  --redline-accent: #D85A30;
+  --redline-accent-hover: #c34b22;
+  --redline-accent-light: #FAECE7;
+  --redline-text-primary: #1A1A1A;
+  --redline-text-secondary: #666666;
+  --redline-bg-surface: #ffffff;
+  --redline-bg-body: #f8f9fa;
+  --redline-border-color: #f1f3f5;
 }
 
 body {
-  margin: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  color: var(--redline-text-primary);
+  background-color: var(--redline-bg-body);
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+/* Custom Typography */
+.redline-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  color: var(--redline-text-primary);
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
+.redline-message {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  color: var(--redline-text-secondary);
+}
+
+.redline-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
   font-weight: 500;
-  color: var(--text-h);
+  color: #999999;
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
+/* Scrollbar customizations */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
+.scrollbar-none {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
+/* Custom Scrollbar for Conversation List */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #e0e0e0;
   border-radius: 4px;
-  color: var(--text-h);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #c0c0c0;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/* Interactive custom components styling */
+.redline-fab {
+  background-color: var(--redline-accent) !important;
+  border: none !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px rgba(216, 90, 48, 0.4) !important;
+}
+
+.redline-fab:hover {
+  background-color: var(--redline-accent-hover) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(216, 90, 48, 0.6) !important;
+}
+
+.redline-fab:active {
+  transform: scale(0.95);
+}
+
+/* Search Input styling */
+.redline-search-input {
+  background-color: #f1f3f5;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.redline-search-input:focus {
+  background-color: #ffffff;
+  border-color: var(--redline-accent) !important;
+  box-shadow: 0 0 0 3px rgba(216, 90, 48, 0.15) !important;
+}
+
+/* Status Item Active Ring */
+.status-ring-active {
+  border: 2px solid var(--redline-accent) !important;
+  padding: 2px;
+}
+
+/* Conversation list items hover and active states */
+.conversation-item {
+  transition: background-color 0.15s ease;
+  border-bottom: 1px solid var(--redline-border-color);
+}
+
+.conversation-item:hover {
+  background-color: #fcfcfc;
+}
+
+.conversation-item.active {
+  background-color: var(--redline-accent-light) !important;
+}
+
+.unread-badge {
+  background-color: var(--redline-accent) !important;
+  color: #ffffff;
+}
+
+/* Logo representation SVG icon matching style */
+.logo-icon-redline {
+  color: var(--redline-accent);
 }
