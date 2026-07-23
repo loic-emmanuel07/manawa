@@ -1,17 +1,16 @@
 // drizzle.config.ts (racine du projet backend)
+import env from "./src/config/env";
 
 import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
+	schema: "./src/db/schema.ts",
 
-  schema: "./src/db/schema.ts",
+	out: "./src/db/migrations",
 
-  out: "./src/db/migrations",
+	dialect: "postgresql",
 
-  dialect: "postgresql",
-
-  dbCredentials: {
-    url: process.env.DIRECT_URL!,
-  },
-
+	dbCredentials: {
+		url: env.DATABASE_URL,
+	},
 });
