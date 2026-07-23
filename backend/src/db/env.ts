@@ -1,0 +1,16 @@
+// The ENV config loader
+// Utilisez à la place de process.env pour des données déjà validé
+// Et evitez les syntaxes "unsafe" comme "process.env.SUPABASE_URL!"
+import "dotenv/config";
+
+function required(key: string): string {
+  const value = process.env[key];
+  if (!value) throw new Error(`Variable d'environnement manquante: ${key}`);
+  return value;
+}
+
+export const env = {
+  SUPABASE_URL: required("SUPABASE_URL"),
+  SUPABASE_ANON_KEY: required("SUPABASE_ANON_KEY"),
+  PORT: process.env.PORT || "3000",
+};
