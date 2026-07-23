@@ -2,22 +2,22 @@
 
 import { relations } from "drizzle-orm";
 import {
-	boolean,
-	pgTable,
-	primaryKey,
-	text,
-	timestamp,
-	uuid,
+  boolean,
+  pgSchema,
+  pgTable,
+  primaryKey,
+  text,
+  timestamp,
+  uuid,
 } from "drizzle-orm/pg-core";
 
+
+const authSchema = pgSchema("auth");
+
 // Table gérée par Supabase Auth — on la déclare juste pour pouvoir la référencer
-export const authUsers = pgTable(
-	"users",
-	{
-		id: uuid("id").primaryKey(),
-	},
-	() => ({ schema: "auth" }),
-);
+export const authUsers = authSchema.table("users", {
+  id: uuid("id").primaryKey(),
+});
 
 // Profil applicatif, lié 1-to-1 à auth.users
 export const profiles = pgTable("profiles", {
@@ -37,20 +37,20 @@ export const conversations = pgTable("conversations", {
 });
 
 export const conversationParticipants = pgTable(
-	"conversation_participants",
-	{
-		conversationId: uuid("conversation_id")
-			.notNull()
-			.references(() => conversations.id, { onDelete: "cascade" }),
-		userId: uuid("user_id")
-			.notNull()
-			.references(() => authUsers.id, { onDelete: "cascade" }),
-		role: text("role").default("member"), // "admin" | "member", utile pour les groupes
-		joinedAt: timestamp("joined_at").defaultNow().notNull(),
-	},
-	(table) => ({
-		pk: primaryKey({ columns: [table.conversationId, table.userId] }),
-	}),
+  "conversation_participants",
+  {
+    conversationId: uuid("conversation_id")
+      .notNull()
+      .references(() => conversations.id, { onDelete: "cascade" }),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => authUsers.id, { onDelete: "cascade" }),
+    role: text("role").default("member"),
+    joinedAt: timestamp("joined_at").defaultNow().notNull(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.conversationId, table.userId] }),
+  ],
 );
 
 export const messages = pgTable("messages", {
@@ -76,4 +76,11 @@ export const messagesRelations = relations(messages, ({ one }) => ({
 		fields: [messages.conversationId],
 		references: [conversations.id],
 	}),
+}));
+
+export const conversationParticipantsRelations = relations(conversationParticipants, ({ one }) => ({
+  conversation: one(conversations, {
+    fields: [conversationParticipants.conversationId],
+    references: [conversations.id],
+  }),
 }));
