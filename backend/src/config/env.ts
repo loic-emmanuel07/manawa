@@ -4,16 +4,16 @@
 import "dotenv/config";
 
 function required(key: string): string {
-  const value = process.env[key];
-  if (!value) throw new Error(`Variable d'environnement manquante: ${key}`);
-  return value;
+	const value = process.env[key];
+	if (!value) throw new Error(`Variable d'environnement manquante: ${key}`);
+	return value;
 }
 
 const env = {
-  DATABASE_URL: required("DATABASE_URL"),
-  SUPABASE_URL: required("SUPABASE_URL"),
-  SUPABASE_ANON_KEY: required("SUPABASE_ANON_KEY"),
-  PORT: process.env.PORT || "3000",
+	DATABASE_URL: required("DATABASE_URL"),
+	SUPABASE_URL: required("SUPABASE_URL"),
+	SUPABASE_ANON_KEY: required("SUPABASE_ANON_KEY"),
+	PORT: process.env.PORT || "3000",
 };
 
 export default env;

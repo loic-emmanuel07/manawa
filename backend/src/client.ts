@@ -14,7 +14,8 @@ socket.on("disconnect", () => {
 	console.log("Déconnecté du serveur");
 });
 
-// exemple d'envoi
+/* je sais pas trop quoi en faire
 function sendMessage(text: string) {
 	socket.emit("message", text);
 }
+*/

@@ -1,7 +1,7 @@
 // drizzle.config.ts (racine du projet backend)
-import env from "./src/config/env";
 
 import { defineConfig } from "drizzle-kit";
+import env from "./src/config/env";
 
 export default defineConfig({
 	schema: "./src/db/schema.ts",

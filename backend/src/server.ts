@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { createServer } from "http";
+import { createServer } from "node:http";
 import { Server } from "socket.io";
 import app from "./app";
 
