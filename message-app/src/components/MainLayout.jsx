@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import HomeScreen from './sidebar/HomeScreen';
-
-// NOTE : Les composants ChatScreen et EmptyState sont temporairement désactivés 
-// pour se concentrer sur l'intégration du composant HomeScreen (panneau de gauche).
+import ChatScreen from './chat/ChatScreen';
 
 const MainLayout = () => {
   const [activeChatId, setActiveChatId] = useState(null);
@@ -36,16 +34,7 @@ const MainLayout = () => {
         }`}
       >
         {activeChatId ? (
-          <div className="h-100 d-flex flex-column align-items-center justify-content-center bg-white p-4">
-            <p className="text-muted fw-bold">Écran de chat (Désactivé)</p>
-            <p className="text-secondary small mt-1">ID de la discussion : {activeChatId}</p>
-            <button 
-              onClick={() => setActiveChatId(null)} 
-              className="mt-4 btn btn-success rounded-pill d-md-none"
-            >
-              Retour à la liste
-            </button>
-          </div>
+          <ChatScreen activeChatId={activeChatId} onBack={() => setActiveChatId(null)} />
         ) : (
           <div className="h-100 d-flex flex-column align-items-center justify-content-center bg-light p-4">
             <div className="text-center">
