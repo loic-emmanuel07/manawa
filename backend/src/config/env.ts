@@ -9,8 +9,11 @@ function required(key: string): string {
   return value;
 }
 
-export const env = {
+const env = {
+  DATABASE_URL: required("DATABASE_URL"),
   SUPABASE_URL: required("SUPABASE_URL"),
   SUPABASE_ANON_KEY: required("SUPABASE_ANON_KEY"),
   PORT: process.env.PORT || "3000",
 };
+
+export default env;
