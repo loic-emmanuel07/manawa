@@ -3,3 +3,4 @@ dist/
 build/w
 .env
 *.log
+.vscode/
