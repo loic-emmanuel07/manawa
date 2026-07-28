@@ -1,8 +1,6 @@
-import { createClient } from "@supabase/supabase-js";
 import type { Socket } from "socket.io";
-import env from "../../config/env";
+import supabase from "../../lib/supabase";
 
-const supabase = createClient(env.SUPABASE_URL, env.SUPABASE_ANON_KEY);
 
 export async function socketAuthMiddleware(
 	socket: Socket,
@@ -11,15 +9,18 @@ export async function socketAuthMiddleware(
 	const token = socket.handshake.auth?.token;
 
 	if (!token) {
+		console.error("SOCKET.AUTH: Missing token")
 		return next(new Error("Token manquant"));
 	}
 
 	const { data, error } = await supabase.auth.getUser(token);
 
 	if (error || !data.user) {
+		console.error(`SOCKET.AUTH: Invalid token -> ${token}`)
 		return next(new Error("Token invalide"));
 	}
 
 	socket.data.userId = data.user.id;
+	console.log(`Auth successful userId -> ${socket.data.userId}`)
 	next();
 }
