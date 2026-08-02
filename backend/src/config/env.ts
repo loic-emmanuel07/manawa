@@ -14,6 +14,7 @@ const env = {
 	SUPABASE_URL: required("SUPABASE_URL"),
 	SUPABASE_SERVICE_ROLE_KEY: required("SUPABASE_SERVICE_ROLE_KEY"),
 	PORT: process.env.PORT || "3000",
+	CORS_ORIGIN: process.env.CORS_ORIGIN || "*",
 };
 
 export default env;
