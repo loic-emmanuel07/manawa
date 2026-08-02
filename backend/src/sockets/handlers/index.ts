@@ -3,8 +3,8 @@ import { registerConversationHandlers } from "./conversation.handler";
 import { registerMessageHandlers } from "./message.handler";
 
 export function registerHandlers(io: Server): void {
-	io.on("connetion", (Socket) => {
-		registerConversationHandlers(io, Socket);
-		registerMessageHandlers(io, Socket);
+	io.on("connection", (socket) => {
+		registerConversationHandlers(io, socket);
+		registerMessageHandlers(io, socket);
 	});
 }
