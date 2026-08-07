@@ -1,8 +1,11 @@
 import { eq } from "drizzle-orm";
 import type { Request, Response } from "express";
-import { db } from "../db";
+import { db } from "../config/db";
 import { profiles } from "../db/schema";
+import { createLogger } from "../lib/logger";
 import supabase from "../lib/supabase";
+
+const logger = createLogger("auth");
 
 export const register = async (req: Request, res: Response) => {
 	try {
@@ -43,6 +46,7 @@ export const register = async (req: Request, res: Response) => {
 				})
 				.returning();
 
+			logger.success(`User registered -> ${userId}`);
 			res.status(201).json({
 				user: {
 					id: userId,
@@ -53,11 +57,15 @@ export const register = async (req: Request, res: Response) => {
 		} catch (dbError) {
 			// Si l'insertion du profil échoue, on supprime l'utilisateur Auth créé
 			// pour éviter d'avoir un compte "orphelin" sans profil
+			logger.warn(
+				`Profile insert failed, rolling back auth user -> ${userId}`,
+				dbError,
+			);
 			await supabase.auth.admin.deleteUser(userId);
 			throw dbError;
 		}
 	} catch (error) {
-		console.error(error);
+		logger.error("Registration failed", error);
 		res.status(500).json({ error: "Erreur serveur" });
 	}
 };
@@ -76,6 +84,7 @@ export const login = async (req: Request, res: Response) => {
 		});
 
 		if (error) {
+			logger.warn(`Login failed for ${email}`);
 			return res.status(401).json({ error: "Email ou mot de passe incorrect" });
 		}
 
@@ -85,6 +94,7 @@ export const login = async (req: Request, res: Response) => {
 			.from(profiles)
 			.where(eq(profiles.id, data.user.id));
 
+		logger.info(`User logged in -> ${data.user.id}`);
 		res.status(200).json({
 			user: {
 				id: data.user.id,
@@ -95,7 +105,7 @@ export const login = async (req: Request, res: Response) => {
 			session: data.session, // contient access_token, refresh_token, expires_at...
 		});
 	} catch (error) {
-		console.error(error);
+		logger.error("Login failed", error);
 		res.status(500).json({ error: "Erreur serveur" });
 	}
 };

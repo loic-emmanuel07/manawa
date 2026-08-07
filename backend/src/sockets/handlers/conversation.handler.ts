@@ -1,4 +1,5 @@
 import type { Server, Socket } from "socket.io";
+import { createLogger, locate } from "../../lib/logger";
 import {
 	createConversation,
 	isParticipant,
@@ -9,6 +10,8 @@ import {
 	leaveConversationSchema,
 } from "../../types";
 import { EVENTS } from "../events";
+
+const logger = createLogger("socket:conversation");
 
 export function registerConversationHandlers(io: Server, socket: Socket) {
 	socket.on(EVENTS.CONVERSATION_CREATE, async (rawPayload, ack) => {
@@ -30,6 +33,9 @@ export function registerConversationHandlers(io: Server, socket: Socket) {
 			io.to(userId).socketsJoin(conversation.id);
 		});
 
+		logger.debug(
+			`Conversation created -> ${conversation.id} (${conversation.participantIds.length} participants)`,
+		);
 		io.to(conversation.id).emit(EVENTS.CONVERSATION_CREATED, conversation);
 		ack({ ok: true, conversationId: conversation.id });
 	});
@@ -45,6 +51,9 @@ export function registerConversationHandlers(io: Server, socket: Socket) {
 			parsed.data.conversationId,
 		);
 		if (!allowed) {
+			logger.warn(
+				`Join denied: userId ${socket.data.userId} is not a participant of ${parsed.data.conversationId}`,
+			);
 			return ack?.({
 				ok: false,
 				error: "Vous ne faites pas partie de cette conversation",
@@ -65,3 +74,4 @@ export function registerConversationHandlers(io: Server, socket: Socket) {
 		ack?.({ ok: true });
 	});
 }
+locate(registerConversationHandlers);
